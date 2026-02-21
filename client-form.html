@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Request Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 50px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3182ce;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .radio-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        .radio-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 400;
+        }
+
+        .pill-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .pill-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .pill-item input[type="radio"],
+        .pill-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .pill-item label {
+            width: 100%;
+            padding: 10px 16px;
+            background: #e2e8f0;
+            border: 2px solid #cbd5e0;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .pill-item input[type="radio"]:checked + label,
+        .pill-item input[type="checkbox"]:checked + label {
+            background: #3182ce;
+            color: white;
+            border-color: #3182ce;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e53e3e;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(49, 130, 206, 0.3);
+        }
+
+        .btn-reset {
+            background: #e2e8f0;
+            color: #2d3748;
+        }
+
+        .btn-reset:hover {
+            background: #cbd5e0;
+        }
+
+        .success-message {
+            display: none;
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #48bb78;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-message {
+            display: none;
+            background: #fed7d7;
+            color: #742a2a;
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #f56565;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏡 Find Your Perfect Agent</h1>
+            <p>Tell us what you're looking for and we'll connect you with the right agent</p>
+        </div>
+
+        <div id="successMessage" class="success-message">
+            ✓ Thank you! Your request has been submitted successfully. We'll match you with an agent soon!
+        </div>
+        <div id="errorMessage" class="error-message">
+            ✗ Error submitting form. Please try again or contact support.
+        </div>
+
+        <form id="clientForm">
+            <!-- Section 1: Your Information -->
+            <div style="margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #e2e8f0;">
+                <h3 style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 700; color: #2d3748; margin-bottom: 20px;">👤 Your Information</h3>
+
+                <div class="form-group">
+                    <label for="firstName" class="required">First Name</label>
+                    <input type="text" id="firstName" name="entry.1234567890" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName" class="required">Last Name</label>
+                    <input type="text" id="lastName" name="entry.1234567891" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="required">Phone Number</label>
+                    <input type="tel" id="phone" name="entry.1234567892" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="required">Email Address</label>
+                    <input type="email" id="email" name="entry.1234567893" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contact" class="required">Preferred Contact Method</label>
+                    <select id="contact" name="entry.1234567894" required>
+                        <option value="">Select an option</option>
+                        <option value="Call">Call</option>
+                        <option value="Text">Text</option>
+                        <option value="Email">Email</option>
+                        <option value="Any">Any</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Section 2: What You're Looking For -->
+            <div style="margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #e2e8f0;">
+                <h3 style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 700; color: #2d3748; margin-bottom: 20px;">🎯 What You're Looking For</h3>
+
+                <div class="form-group">
+                    <label class="required">I am looking to...</label>
+                    <div class="pill-group">
+                        <div class="pill-item">
+                            <input type="radio" id="intent1" name="entry.1234567895" value="Buy" required>
+                            <label for="intent1">Buy</label>
+                        </div>
+                        <div class="pill-item">
+                            <input type="radio" id="intent2" name="entry.1234567895" value="Sell" required>
+                            <label for="intent2">Sell</label>
+                        </div>
+                        <div class="pill-item">
+                            <input type="radio" id="intent3" name="entry.1234567895" value="Invest" required>
+                            <label for="intent3">Invest</label>
+                        </div>
+                        <div class="pill-item">
+                            <input type="radio" id="intent4" name="entry.1234567895" value="Buy & Sell" required>
+                            <label for="intent4">Buy & Sell</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="targetCity" class="required">Target City</label>
+                    <input type="text" id="targetCity" name="entry.1234567896" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="targetState" class="required">Target State</label>
+                    <select id="targetState" name="entry.1234567897" required>
+                        <option value="">Select a state</option>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="timeline" class="required">Timeline</label>
+                    <select id="timeline" name="entry.1234567898" required>
+                        <option value="">Select a timeline</option>
+                        <option value="ASAP">ASAP</option>
+                        <option value="1-3 Months">1-3 Months</option>
+                        <option value="3-6 Months">3-6 Months</option>
+                        <option value="6-12 Months">6-12 Months</option>
+                        <option value="Just Exploring">Just Exploring</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="priceRange" class="required">Budget / Price Range</label>
+                    <select id="priceRange" name="entry.1234567899" required>
+                        <option value="">Select a price range</option>
+                        <option value="$100k-$300k">💰 $100k - $300k</option>
+                        <option value="$301k-$500k">💵 $301k - $500k</option>
+                        <option value="$501k-$1M">💎 $501k - $1M</option>
+                        <option value="$1M+">🏆 $1M+</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Section 3: Additional Information -->
+            <div style="margin-bottom: 30px;">
+                <h3 style="font-family: 'Poppins', sans-serif; font-size: 18px; font-weight: 700; color: #2d3748; margin-bottom: 20px;">💬 Additional Information</h3>
+
+                <div class="form-group">
+                    <label for="additionalInfo">Anything else we should know?</label>
+                    <textarea id="additionalInfo" name="entry.1234567900" placeholder="Tell us more about your needs..."></textarea>
+                </div>
+
+                <div class="checkbox-item" style="margin-bottom: 30px;">
+                    <input type="checkbox" id="consent" name="entry.1234567901" required>
+                    <label for="consent" class="required">I authorize you to contact me about real estate opportunities</label>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn-submit">Find My Agent</button>
+                <button type="reset" class="btn-reset">Clear Form</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('clientForm');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const googleFormURL = 'https://docs.google.com/forms/d/e/1FAIpQLSfxNDi5Exc298S7tAW-JbOkG54h2zCxhH_P7exWUpg3HNPYHg/formResponse';
+
+            fetch(googleFormURL, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            })
+            .then(response => {
+                successMessage.classList.add('show');
+                errorMessage.classList.remove('show');
+                form.reset();
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                }, 5000);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.classList.add('show');
+                successMessage.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>
